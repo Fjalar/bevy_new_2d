@@ -363,7 +363,7 @@ jobs:
               '${{ env.itch_page }}':"${channel#package-}"
           done
 
-  # Deploy to Github Pages
+  # Upload to GitHub Pages.
   deploy-to-pages:
     needs: build
 
