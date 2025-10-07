@@ -32,8 +32,8 @@ on:
         description: "Upload to itch.io (if configured)"
         default: true
         type: boolean
-      deploy-to-pages:
-        description: "Deploy to Github Pages (requires web build)"
+      upload_to_github_pages:
+        description: "Upload web build to GitHub Pages"
         default: false
         type: boolean
       deny_warnings:
