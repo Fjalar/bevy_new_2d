@@ -370,7 +370,8 @@ jobs:
     permissions:
       # Required to upload to GitHub Pages.
       pages: write
-      # Required to verify the upload originates from an appropriate source.
+      # Required for GitHub Pages to verify the source of the upload.
+      # See: <https://github.com/actions/deploy-pages/issues/329>.
       id-token: write
     environment:
       name: github-pages
