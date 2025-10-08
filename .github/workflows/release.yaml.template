@@ -32,8 +32,8 @@ on:
         description: "Upload to itch.io (if configured)"
         default: true
         type: boolean
-      deploy-to-pages:
-        description: "Deploy to Github Pages (requires web build)"
+      upload_to_github_pages:
+        description: "Upload web build to GitHub Pages"
         default: false
         type: boolean
       deny_warnings:
@@ -321,9 +321,8 @@ jobs:
           name: package-${{ matrix.platform }}
           retention-days: 1
 
-      - name: Upload web build artifact for Github Pages deployment
+    - name: Upload web bundle to workflow artifacts for GitHub Pages (web)
         if: ${{ env.is_platform_enabled == 'true' && matrix.platform == 'web' && inputs.deploy-to-pages }}
-        id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.app }}/${{ env.cargo_build_binary_name }}
@@ -374,23 +373,22 @@ jobs:
               '${{ env.itch_page }}':"${channel#package-}"
           done
 
-  # Deploy to Github Pages
-  deploy-to-pages:
+  # Deploy to GitHub Pages.
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
     needs: build
-
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-
-    # Deploy to the github-pages environment
+      # Required to deploy to GitHub Pages.
+      pages: write
+      # Required for GitHub Pages to verify the source of the upload.
+      # See: <https://github.com/actions/deploy-pages/issues/329>.
+      id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url }}
 
-    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: deploy
         uses: actions/deploy-pages@v4
 {%- endraw %}
