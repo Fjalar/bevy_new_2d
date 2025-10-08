@@ -135,7 +135,7 @@ Set `Kind of project` to `HTML`, then find the newly uploaded `web` build and ti
   ![A screenshot showing where to enable Pages deployment via Github Actions](./img/enable_github_pages.png)
 </details>
   
-Hit the drop-down under `Source` and choose `Github Actions` as the source of your Pages deployment
+Hit the drop-down under `Source` and choose `Github Actions` as the source of your Pages deployment.
 
 ### Add your branch to the `github-pages` environment
 
@@ -144,7 +144,7 @@ If the branch you want to upload to Github Pages is not the main one, you need t
 <details>
   <summary>In your GitHub repository, navigate to <code>Settings > Environments > github-pages > Deployment branches</code>.</summary>
 
-  ![A screenshot showing where to enable Pages deployment via Github Actions](./img/add_branch_to_github_pages_environment.png)
+  ![A screenshot showing where to add a branch to the github-pages environment](./img/add_branch_to_github_pages_environment.png)
 </details>
 
 Hit `Add deployment branch rule`, type in the name of the branch you want to upload to Pages, and hit `Add rule`.
