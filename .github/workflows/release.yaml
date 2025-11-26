@@ -54,6 +54,9 @@ env:
   # The path to the assets directory.
   assets_path: assets
 
+  # The path to the libraries directory.
+  libs_path: lib
+
   # The itch.io project to deploy to in the format `user-name/project-name`.
   # There will be no deployment to itch.io if this is commented out.
   itch_page: the-bevy-flock/bevy-new-2d
@@ -172,6 +175,14 @@ jobs:
           if [ '${{ matrix.platform }}' != 'windows' ]; then
             RUSTFLAGS="${RUSTFLAGS:+$RUSTFLAGS }"'-Zshare-generics=y'
           fi
+          # Set up platform library rpaths
+          if [ '${{ matrix.platform }}' = 'linux' ]; then
+            RUSTFLAGS="${RUSTFLAGS:+$RUSTFLAGS }"'-C link-arg=-Wl,-rpath,$ORIGIN'
+          fi
+          if [ '${{ matrix.platform }}' = 'macos' ]; then
+            RUSTFLAGS="${RUSTFLAGS:+$RUSTFLAGS }"'-C link-arg=-Wl,-rpath,@loader_path'
+          fi
+
           if [ '${{ inputs.deny_warnings }}' = 'true' ]; then
             RUSTFLAGS="${RUSTFLAGS:+$RUSTFLAGS }"'-Dwarnings'
           fi
@@ -250,6 +261,10 @@ jobs:
       - name: Add assets to app (non-Web)
         if: ${{ env.is_platform_enabled == 'true' && matrix.platform != 'web' }}
         run: cp -R ./'${{ env.assets_path }}' '${{ env.app }}' || true # Ignore error if assets folder does not exist.
+
+      - name: Add platform libraries (non-Web)
+        if: ${{ env.is_platform_enabled == 'true' && matrix.platform != 'web' }}
+        run: cp -R ./'${{ env.libs_path }}'/'${{ matrix.platform }}'/* '${{ env.app }}' || true
 
       - name: Add metadata to app (macOS)
         if: ${{ env.is_platform_enabled == 'true' && matrix.platform == 'macos' }}
