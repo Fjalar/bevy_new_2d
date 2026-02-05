@@ -32,6 +32,8 @@ The [CD workflow](../.github/workflows/release.yaml) will trigger on manual work
 - (Optional) Deploy to [itch.io](https://itch.io).
 - (Optional) Deploy to [GitHub Pages](https://docs.github.com/en/pages).
 
+If you enable `env.continuous_deployment_to_itch`, it will also deploy the newest version of the app to itch.io on every push to `main` (assuming the page is set up).
+
 <details>
   <summary><ins>Triggering a release</ins></summary>
 
@@ -91,10 +93,12 @@ The release workflow can be configured by tweaking the environment variables in 
   # Before enabling LFS, please take a look at GitHub's documentation for costs and quota limits:
   # <https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-storage-and-bandwidth-usage>
   git_lfs: false
-
-  # Enabling this only helps with consecutive releases to the same version (and takes up cache storage space).
-  # See: <https://github.com/orgs/community/discussions/27059>.
-  use_github_cache: false
+  
+  # Enable these to deploy on every push to `main`.
+  # Make sure to set up any enabled targets. Builds will ignore warnings.
+  # Warning: If you use private repositories, this will eat through your available worker minutes quickly.
+  continuous_deployment_to_itch: false
+  continuous_deployment_to_github_pages: false
   ```
 </details>
 
