@@ -55,7 +55,6 @@ fn spawn_splash_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
         children![(
             Name::new("Splash image"),
             Node {
-                margin: UiRect::all(Val::Auto),
                 width: percent(70),
                 ..default()
             },
